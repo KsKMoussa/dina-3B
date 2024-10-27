@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuadrícula 15x6 con Preguntas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(15, 40px);
+            grid-template-rows: repeat(6, 40px);
+            gap: 2px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            cursor: text;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            background: none;
+            border: 2px solid grey;
+        }
+        .icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border: 2px solid grey;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+.numbers-right {
+    display: grid;
+    grid-template-columns: repeat(4, 40px);
+    gap: 10px;
+    justify-content: center;
+    margin-left: 60px; /* Ajusta el margen izquierdo para desplazarlos a la derecha */
+    margin-top: 20px;
+}
+
+
+        .circle-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .keyboard-group {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .key {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border: 2px solid grey;
+            border-radius: 50%;
+            margin: 2px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .key.red {
+            background-color: red;
+            color: white;
+        }
+        .key.green {
+            background-color: green;
+            color: white;
+        }
+#question-container {
+    border: 2px solid grey;
+    padding: 20px;
+    margin-bottom: 20px;
+    color:#808b96; /* Gris plomo */
+    border-radius: 10px;
+    text-align: center;
+            font-size: 24px;
+ 
+}
+
+.circle-number.selected {
+    background-color: green;
+    color: white;
+}
+
+
+    </style>
+</head>
+<body>
+<h1>Reto de Seguro de Daños y Líneas Aliadas, descifra la Frase</h1>
+<audio id="click-sound" src="victory.mp3"></audio>
+<div id="question-container"></div>
+    <div id="container">
+        <div id="grid"></div>
+
+<div class="numbers-right">
+    <div class="circle-number" onclick="showQuestion(1)">1</div>
+    <div class="circle-number" onclick="showQuestion(2)">2</div>
+    <div class="circle-number" onclick="showQuestion(3)">3</div>
+    <div class="circle-number" onclick="showQuestion(4)">4</div>
+    <div class="circle-number" onclick="showQuestion(5)">5</div>
+    <div class="circle-number" onclick="showQuestion(6)">6</div>
+    <div class="circle-number" onclick="showQuestion(7)">7</div>
+    <div class="circle-number" onclick="showQuestion(8)">8</div>
+    <div class="circle-number" onclick="showQuestion(9)">9</div>
+    <div class="circle-number" onclick="showQuestion(10)">10</div>
+    <div class="circle-number" onclick="showQuestion(11)">11</div>
+    <div class="circle-number" onclick="showQuestion(12)">12</div>
+    <div class="circle-number" onclick="showQuestion(13)">13</div>
+    <div class="circle-number" onclick="showQuestion(14)">14</div>
+    <div class="circle-number" onclick="showQuestion(15)">15</div>
+    <div class="circle-number" onclick="showQuestion(16)">16</div>
+    <div class="circle-number" onclick="showQuestion(17)">17</div>
+    <div class="circle-number" onclick="showQuestion(18)">18</div>
+    <div class="circle-number" onclick="showQuestion(19)">19</div>
+    <div class="circle-number" onclick="showQuestion(20)">20</div>
+</div>
+
+    </div>
+    <button onclick="highlightEmptyCells()">&#x21bb;</button>
+    <div class="keyboard-group">
+        <div class="key" onclick="selectLetter('Q')">Q</div>
+        <div class="key" onclick="selectLetter('W')">W</div>
+        <div class="key" onclick="selectLetter('E')">E</div>
+        <div class="key" onclick="selectLetter('R')">R</div>
+        <div class="key" onclick="selectLetter('T')">T</div>
+        <div class="key" onclick="selectLetter('Y')">Y</div>
+        <div class="key" onclick="selectLetter('U')">U</div>
+        <div class="key" onclick="selectLetter('I')">I</div>
+        <div class="key" onclick="selectLetter('O')">O</div>
+        <div class="key" onclick="selectLetter('P')">P</div>
+    </div>
+    <div class="keyboard-group">
+        <div class="key" onclick="selectLetter('A')">A</div>
+        <div class="key" onclick="selectLetter('S')">S</div>
+        <div class="key" onclick="selectLetter('D')">D</div>
+        <div class="key" onclick="selectLetter('F')">F</div>
+        <div class="key" onclick="selectLetter('G')">G</div>
+        <div class="key" onclick="selectLetter('H')">H</div>
+        <div class="key" onclick="selectLetter('J')">J</div>
+        <div class="key" onclick="selectLetter('K')">K</div>
+        <div class="key" onclick="selectLetter('L')">L</div>
+    </div>
+    <div class="keyboard-group">
+        <div class="key" onclick="selectLetter('Z')">Z</div>
+        <div class="key" onclick="selectLetter('X')">X</div>
+        <div class="key" onclick="selectLetter('C')">C</div>
+        <div class="key" onclick="selectLetter('V')">V</div>
+        <div class="key" onclick="selectLetter('B')">B</div>
+        <div class="key" onclick="selectLetter('N')">N</div>
+        <div class="key" onclick="selectLetter('M')">M</div>
+    </div>
+    <audio id="correct-sound" src="training-program-correct2-88734.mp3" preload="auto"></audio>
+    <audio id="incorrect-sound" src="negative_beeps-6008.mp3" preload="auto"></audio>
+    <script>
+ const questions = {
+            1: "Enuncia cinco Coberturas que tienen comúnmente la 'Póliza de incendio y “Líneas Aliadas' ",
+            2: "A que se refiere el Daño directo en la 'Póliza de incendio y “Líneas Aliadas'",
+            3: "Apoderarse ilegalmente de los bienes, contra la voluntad de la persona, utilizando la violencia o la amenaza de causar graves daños inminentes a las personas” es la definición de:",
+            4: "La pérdida de utilidad o de ganancia legítima de una empresa a causa de un siniestro es cubierto por:",
+            5: "En el Seguro de Lucro Cesante Forma Inglesa, la suma asegurada es:",
+            6: "¿Los daños y gastos incurridos a causa de un accidente de tránsito y que afecta a un tercero, es una responsabilidad Civil extracontractual o contractual?",
+            7: "¿Que tipo de daño es aquel que ha sido originado a consecuencia de un acto humano voluntario tendente a su producción?",
+            8: "Primer Riesgo (Relativo / Absoluto): El asegurado declara que la Suma Asegurada representa para la fecha de emisión o renovación de la póliza   no menos de un determinado (% / monto) de los Valores Reales Totales Asegurables (VRTA)",
+            9: "Verdadero o Falso:Las Maquinarias y Equipos para la Industria y el Comercio son bienes no asegurables de la cobertura del Seguro de  Sustracción Ilegítima",
+            10: "Mediante el Seguro de (Lucro Cesante Forma Inglesa / Lucro Cesante Forma Americana) de pérdidas de utilidades, la compañía de seguros cubre el período completo de readaptación de la empresa o negocio asegurado, hasta que éste logre alcanzar el mismo nivel productivo o de beneficios que existía antes del siniestro. También  cubre la (aumento / reducción) del movimiento comercial y el (aumento / reducción) en el costo de operaciones que resulten de tal interrupción",
+            11: " Daños por objetos que caigan de aeronaves. ¿tienen cobertura en la póliza de Daños?",
+            12: "¿Daños por agua debido a la extinción del fuego, ¿es una cobertura opcional o esta en la cobertura básica de Daños?",
+            13: "Los siguientes eventos: Nacionalización, confiscación, incautación, requisa, comiso, embargo, secuestro, expropiación.¿Estan cubiertos en el seguro de daños? ",
+            14: "El objeto de esta  responsabilidad civil  se refiere a la obligación que tienen las empresas de reparar daños causados a terceros en el desarrollo de sus actividades",
+            15: "El objeto de este La responsabilidad civil  Implica la obligación del empleador de reparar daños sufridos por los empleados en el ámbito laboral",
+            16: "¿Sí o No. ¿Los instrumentos financieron son asegurables?",
+            17: "¿Daños por agua, producto de lluvias.¿es una cobertura opcional o esta en la cobertura básica de Daños ?",
+            18: "Apoderarse ilegalmente de los bienes, contra la voluntad de la persona, utilizando la violencia o la amenaza de causar graves daños inminentes a las personas” es la definición de",
+            19: "Verdadero o Falso. Vehículos terrestres, marítimos y aéreos, así como trenes, locomotoras, aeronaves, tranvías, teleféricos y funiculares son bienes excluidos de la cobertura del Seguro de  Sustracción Ilegítima",
+             20: "Son aquellos cuyos montos o sumas aseguradas no guardan relación alguna con los VRTA de los bienes a riesgos y se deroga la aplicación de la cláusula de infraseguro"
+        };
+
+        function createGrid() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = ''; // Limpiar la cuadrícula existente
+            for (let i = 0; i < 90; i++) { // 15 columnas x 6 filas = 90 celdas
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.contentEditable = true; // Permite la edición del contenido de la celda
+                cell.addEventListener('input', () => {
+                    cell.textContent = cell.textContent.toUpperCase(); // Convierte el texto a mayúsculas
+                });
+                grid.appendChild(cell);
+            }
+        }
+
+        function highlightEmptyCells() {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => {
+                if (!cell.textContent.trim()) {
+                    cell.style.backgroundColor = 'lightblue';
+                } else {
+                    cell.style.color = 'white'; // Ocultar el texto en las celdas no vacías
+                }
+            });
+        }
+
+        function selectLetter(letter) {
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                if (key.classList.contains('red') || key.classList.contains('green')) {
+                    return;
+                }
+                key.style.backgroundColor = '';
+                key.style.color = 'black';
+            });
+
+            const selectedKey = [...keys].find(key => key.textContent === letter);
+            if (selectedKey.classList.contains('red') || selectedKey.classList.contains('green')) {
+                return;
+            }
+            selectedKey.style.backgroundColor = 'green';
+            selectedKey.style.color = 'white';
+
+            let found = false;
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => {
+                if (cell.textContent === letter) {
+                    cell.style.color = 'darkgrey';
+                    cell.style.fontWeight = 'bold';
+                    cell.style.fontSize = '24px'; // Aumenta el tamaño de la letra
+                    found = true;
+                }
+            });
+
+            const correctSound = document.getElementById('correct-sound');
+            const incorrectSound = document.getElementById('incorrect-sound');
+
+            if (found) {
+                selectedKey.classList.add('green');
+                correctSound.play();
+            } else {
+                selectedKey.style.backgroundColor = 'red';
+                selectedKey.style.color = 'white';
+                selectedKey.classList.add('red');
+                incorrectSound.play();
+            }
+        }
+
+function showQuestion(number) {
+    const question = questions[number];
+    document.getElementById('question-container').textContent = question;
+
+    const selectedNumber = document.querySelector(`.circle-number:nth-child(${number})`);
+    if (selectedNumber) {
+        selectedNumber.classList.add('selected');
+    }
+}
+
+        document.addEventListener('DOMContentLoaded', createGrid);
+    document.addEventListener('dblclick', function() {
+    document.getElementById('click-sound').play();
+});
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
